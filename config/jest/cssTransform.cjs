@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
   process(src, filename, config, options) {
     return {
@@ -10,3 +9,4 @@ module.exports = {
     return "cssTransform";
   },
 };
+
