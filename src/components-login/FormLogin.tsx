@@ -1,6 +1,40 @@
+import { useState,useRef } from "react";
 import logo4 from "../assets/logo4.png";
 
+type User = {
+  email: string;
+  password: string;
+};
+
 const FormLogin = (): JSX.Element => {
+  const [user, setUser] = useState<User>({
+    email: "",
+    password: "",
+  });
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  };
+
+  const handleEmail = (event:React.ChangeEvent<HTMLInputElement>)=>{
+
+    setUser({ ...user, email: event.target.value })
+   
+
+  }
+
+  //validacion
+  
+
+  const handlePassword = (event:React.ChangeEvent<HTMLInputElement>)=>{
+    setUser({ ...user, password: event.target.value })
+   
+  }
+
   return (
     <>
       <div className="bg-custom-green relative lg:py-20 w-full max-full">
@@ -18,6 +52,8 @@ const FormLogin = (): JSX.Element => {
               <form
                 className="flex flex-col items-start justify-start pt-20 pr-10 pb-24 pl-10 bg-white shadow-2xl rounded-xl
             relative z-10"
+                onSubmit={handleSubmit}
+                ref={formRef}
               >
                 <p className="w-full mb-10 text-3xl text-center leading-snug font-serif">
                   Ingresa con tus credenciales
@@ -38,6 +74,7 @@ const FormLogin = (): JSX.Element => {
                       className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
+                  onChange={handleEmail} required
                     />
                   </div>
                   <div className="relative">
@@ -55,12 +92,14 @@ const FormLogin = (): JSX.Element => {
                       className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
-                    />
+                  onChange={handlePassword}  required
+                    /> 
                   </div>
 
                   <button
                     className="w-full inline-block pt-4 pr-5 pb-4 pl-5 mt-4 text-xl font-medium text-center text-white bg-custom-yellow
                   rounded-lg transition duration-200 hover:bg-black ease"
+                  type="submit"
                   >
                     Enviar
                   </button>
