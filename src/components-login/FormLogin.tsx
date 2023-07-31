@@ -1,5 +1,6 @@
-import { useState,useRef } from "react";
-import logo4 from "../assets/logo4.png";
+import { useState,useRef } from "react"
+//import logo4 from '../assets/logo4.png';
+import getData from "../api/getData"
 
 type User = {
   email: string;
@@ -35,6 +36,13 @@ const FormLogin = (): JSX.Element => {
    
   }
 
+  const result =getData('https://virtserver.swaggerhub.com/ssinuco/BurgerQueenAPI/2.0.0/users?_page=1&_limit=10')
+  .then((response) =>{
+    console.log(response)
+  });
+  console.log(result)
+  
+
   return (
     <>
       <div className="bg-custom-green relative lg:py-20 w-full max-full">
@@ -45,7 +53,7 @@ const FormLogin = (): JSX.Element => {
           <div className="flex flex-col items-center w-full pt-5 pr-10 pb-20 pl-10 lg:pt-20 lg:flex-row">
             <div className="w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12">
               <div className="flex flex-col items-center justify-center w-full h-full relative lg:pr-10">
-                <img src={logo4} className="btn-" />
+               { /*<img src={logo4} className="btn-" />*/}
               </div>
             </div>
             <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
