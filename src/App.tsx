@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
-import Menu from "./components-waitress/components-menu/Menu";
+import Menu from "./pages/Menu";
 import NotFound from "./pages/NotFound";
 
 function App() {
