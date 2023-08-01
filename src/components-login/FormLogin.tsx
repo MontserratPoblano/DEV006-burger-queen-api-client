@@ -28,7 +28,7 @@ const FormLogin = (): JSX.Element => {
   }
 
   //validacion
-  
+  //TODO: Arreglar colores labels
 
   const handlePassword = (event:React.ChangeEvent<HTMLInputElement>)=>{
     setUser({ ...user, password: event.target.value })
