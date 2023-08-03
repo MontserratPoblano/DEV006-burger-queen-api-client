@@ -7,19 +7,39 @@
  
 */
 
-import { User } from "../pages/Login";
-function getData(url: string): Promise<User[]> {
-    return fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuaXRhLmJvcmdAc3lzdGVycy54eXoiLCJpYXQiOjE2OTEwNzEzMDQsImV4cCI6MTY5MTA3NDkwNCwic3ViIjoiMSJ9.NwmnXolk8gnmFC3UzlF1_WCZcn0C8GVlOPiHwAjkxR0",
-        accept: "application/json",
-      },
-    }).then((response) => response.json());
-  }
+import { Token } from "../pages/Login";
+// function getData(url: string): Promise<Token> {
+//     return fetch(url, {
+//       method: "POST",
+//       headers: {
+//         accept: "application/json",
+        
+//       },
+//     }).then((response) => response.json());
+//   }
   
-  export default getData;
+//   export default getData;
   
+
+
+export interface LoginData {
+  email: string;
+  password: string;
+ 
+}
+
+function getData(url: string, loginData: LoginData): Promise<Token> {
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify(loginData), // Aquí agregamos los datos al cuerpo de la solicitud
+  }).then((response) => response.json());
+}
+
+export default getData;
 
 
 
