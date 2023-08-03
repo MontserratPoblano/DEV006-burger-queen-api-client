@@ -8,6 +8,11 @@ import RightSide from "../skeleton-components/Rightside";
 interface Menu {}
 
 const Menu = (): JSX.Element => {
+
+
+
+
+
   return (
 
    <section className="h-screen">

@@ -6,18 +6,20 @@
 
  
 */
-function getData(url:string):Promise<string[]>{
-    return fetch( url,{
-        method: "GET",
-        headers:{
-            Authorization:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-            accept:"application/json",
-        }
+
+import { User } from "../pages/Login";
+function getData(url: string): Promise<User[]> {
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuaXRhLmJvcmdAc3lzdGVycy54eXoiLCJpYXQiOjE2OTEwNzEzMDQsImV4cCI6MTY5MTA3NDkwNCwic3ViIjoiMSJ9.NwmnXolk8gnmFC3UzlF1_WCZcn0C8GVlOPiHwAjkxR0",
+        accept: "application/json",
+      },
     }).then((response) => response.json());
-}
-
-export  default getData;
-
+  }
+  
+  export default getData;
+  
 
 
 

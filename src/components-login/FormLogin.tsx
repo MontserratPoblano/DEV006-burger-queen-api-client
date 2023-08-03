@@ -1,47 +1,37 @@
-import { useState,useRef } from "react"
-//import logo4 from '../assets/logo4.png';
-import getData from "../api/getData"
+import { useState, useRef } from "react";
+import { User } from "../pages/Login";
+import logo4 from "../assets/logo4.png";
 
-type User = {
-  email: string;
-  password: string;
+type FormLoginProps = {
+  handleLogin: (user: User) => void;
+  error?: string;
 };
 
-const FormLogin = (): JSX.Element => {
+const FormLogin = ({ handleLogin, error }: FormLoginProps): JSX.Element => {
   const [user, setUser] = useState<User>({
+    id: 0,
     email: "",
     password: "",
+    role: "",
   });
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (event:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    handleLogin(user);
+
     if (formRef.current) {
       formRef.current.reset();
     }
   };
 
-  const handleEmail = (event:React.ChangeEvent<HTMLInputElement>)=>{
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, email: event.target.value });
+  };
 
-    setUser({ ...user, email: event.target.value })
-   
-
-  }
-
-  //validacion
-  //TODO: Arreglar colores labels
-
-  const handlePassword = (event:React.ChangeEvent<HTMLInputElement>)=>{
-    setUser({ ...user, password: event.target.value })
-   
-  }
-
-  const result =getData('https://virtserver.swaggerhub.com/ssinuco/BurgerQueenAPI/2.0.0/users?_page=1&_limit=10')
-  .then((response) =>{
-    console.log(response)
-  });
-  console.log(result)
-  
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, password: event.target.value });
+  };
 
   return (
     <>
@@ -53,7 +43,7 @@ const FormLogin = (): JSX.Element => {
           <div className="flex flex-col items-center w-full pt-5 pr-10 pb-20 pl-10 lg:pt-20 lg:flex-row">
             <div className="w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12">
               <div className="flex flex-col items-center justify-center w-full h-full relative lg:pr-10">
-               { /*<img src={logo4} className="btn-" />*/}
+                <img src={logo4} className="btn-" />
               </div>
             </div>
             <div className="w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12">
@@ -82,7 +72,8 @@ const FormLogin = (): JSX.Element => {
                       className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
-                  onChange={handleEmail} required
+                      onChange={handleEmail}
+                      required
                     />
                   </div>
                   <div className="relative">
@@ -100,17 +91,19 @@ const FormLogin = (): JSX.Element => {
                       className="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
-                  onChange={handlePassword}  required
-                    /> 
+                      onChange={handlePassword}
+                      required
+                    />
                   </div>
 
                   <button
                     className="w-full inline-block pt-4 pr-5 pb-4 pl-5 mt-4 text-xl font-medium text-center text-white bg-custom-yellow
                   rounded-lg transition duration-200 hover:bg-black ease"
-                  type="submit"
+                    type="submit"
                   >
                     Enviar
                   </button>
+                  {error? <p className="text-red-600 font-medium">{error}</p>: null}
                 </div>
               </form>
             </div>
