@@ -1,24 +1,36 @@
 import { useState, useRef } from "react";
-import { User } from "../pages/Login";
+//import { User } from "../pages/Login";
 import logo4 from "../assets/logo4.png";
+import { LoginData } from "../api/getData";
 
 type FormLoginProps = {
-  handleLogin: (user: User) => void;
+  // handleLogin: (user: User) => void;
   error?: string;
+  onFormSubmit: (loginData: LoginData) => void;
 };
 
-const FormLogin = ({ handleLogin, error }: FormLoginProps): JSX.Element => {
-  const [user, setUser] = useState<User>({
-    id: 0,
+// type User={
+//   id:number;
+//   email:string;
+//   password:string;
+//   role:string;
+// }
+
+
+
+const FormLogin = ({  error, onFormSubmit }: FormLoginProps): JSX.Element => {
+  const [user, setUser] = useState<LoginData>({
+    // id: 0,
     email: "",
     password: "",
-    role: "",
+   
   });
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleLogin(user);
+    onFormSubmit(user)
+
 
     if (formRef.current) {
       formRef.current.reset();
