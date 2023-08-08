@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Token } from "../pages/Login";
 
 
@@ -19,7 +20,7 @@ export function getData(url: string, loginData: LoginData): Promise<Token> {
   }).then((response) => response.json());
 }
 
-export function getDataProducts(url: string,token:string) : Promise<[]> {
+export function getDataProducts(url: string,token:any) : Promise<[]> {
   return fetch(url, {
     method: "GET",
     headers: {
