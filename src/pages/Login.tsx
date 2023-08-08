@@ -28,7 +28,7 @@ const Login = (): JSX.Element => {
   const handleResponse = (response: Token) => {
     if (response.accessToken) {
       localStorage.setItem("userData", JSON.stringify(response.user));
-      localStorage.setItem("token", response.accessToken)
+      localStorage.setItem("accessToken", response.accessToken)
       setAccessToken(response.accessToken)
       navigateToMenu();
     } else {

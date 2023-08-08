@@ -26,7 +26,6 @@ const Menu = (): JSX.Element => {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
-  console.log('desde el render', accessToken)
 
 
   useEffect(() => {
