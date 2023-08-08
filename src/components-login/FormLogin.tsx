@@ -112,6 +112,7 @@ const FormLogin = ({  error, onFormSubmit }: FormLoginProps): JSX.Element => {
                     className="w-full inline-block pt-4 pr-5 pb-4 pl-5 mt-4 text-xl font-medium text-center text-white bg-custom-yellow
                   rounded-lg transition duration-200 hover:bg-black ease"
                     type="submit"
+                    role="button"
                   >
                     Enviar
                   </button>

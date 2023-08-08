@@ -1,7 +1,9 @@
-import lareinaburguer from "/src/assets/lareinaburguer.png";
 import { GiHamburger } from "react-icons/gi";
 import { ImSpoonKnife } from "react-icons/im";
 import { TbLogout } from "react-icons/tb";
+
+import lareinaburguer from "../../../src/assets/lareinaburguer.png";
+
 
 const Navbar = (): JSX.Element => {
   return (
