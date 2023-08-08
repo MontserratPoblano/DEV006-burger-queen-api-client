@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Navbar from "../components-waitress/components-menu/Navbar";
 import LeftSide from "../skeleton-components/Leftside";
 import MiddleSide from "../skeleton-components/Middleside";
@@ -25,17 +26,19 @@ const Menu = (): JSX.Element => {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
+  console.log('desde el render', accessToken)
 
+  const token = localStorage.getItem("token")
   useEffect(() => {
-    if (accessToken) {
-      getDataProducts(
+    if (token) { 
+       getDataProducts(
         "http://localhost:8080/products?_page=1&_limit=10",
-        accessToken
+        token
       ).then((response) => {
         setListProducts(response);
       });
     }
-  }, [accessToken]);
+  }, []);
 
   const handleNameChange = (name: string) => {
     setClientName(name);

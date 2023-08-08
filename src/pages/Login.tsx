@@ -29,6 +29,7 @@ const Login = (): JSX.Element => {
     if (response.accessToken) {
       localStorage.setItem("userData", JSON.stringify(response.user));
       setAccessToken(response.accessToken)
+      localStorage.setItem("token", response.accessToken)
       navigateToMenu();
     } else {
       setError("Existen errores en tus credenciales, inténtalo de nuevo");
