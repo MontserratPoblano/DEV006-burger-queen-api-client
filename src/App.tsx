@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/Menu" element={<Menu />} />
+        <Route path="/menu" element={<Menu />} />
         <Route path="/*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>
