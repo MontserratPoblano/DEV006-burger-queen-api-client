@@ -28,17 +28,17 @@ const Menu = (): JSX.Element => {
   const { accessToken } = useAuth();
   console.log('desde el render', accessToken)
 
-  const token = localStorage.getItem("token")
+
   useEffect(() => {
-    if (token) { 
+    if (accessToken) { 
        getDataProducts(
         "http://localhost:8080/products?_page=1&_limit=10",
-        token
+        accessToken
       ).then((response) => {
         setListProducts(response);
       });
     }
-  }, []);
+  }, [accessToken]);
 
   const handleNameChange = (name: string) => {
     setClientName(name);
