@@ -1,16 +1,39 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  act,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FormLogin from "../components-login/FormLogin";
 import getDataMock from "../__mocks__/getData.mock";
 import Login from "../pages/Login";
 import navigateToMenu from "../pages/Login";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "../context/auth-context";
 
 // const navigateMock = jest.fn();
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"),
-//   useNavigate: () => navigateMock,
-// }));
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  navigate: jest.fn(),
+  useNavigate: jest.fn(), // Agrega esta línea para mockear useNavigate
+}));
+
+// Mockear useContext
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useContext: jest.fn(),
+}));
+
+// Mockear el hook useAuth para evitar el error
+jest.mock("../context/auth-hooks", () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    accessToken: "mockToken",
+    setAccessToken: jest.fn(), // Simulación de la función setAccessToken
+  })),
+}));
 
 describe("componente FormLogin", () => {
   it("muestra el botón enviar", () => {
@@ -23,8 +46,12 @@ describe("componente FormLogin", () => {
   it("muestra un mensaje de error en caso de error de la API", async () => {
     getDataMock.mockRejectedValue(new Error("Error de la API"));
 
-    render(<Login />, { wrapper: BrowserRouter });
-
+    render(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>,
+      { wrapper: BrowserRouter }
+    );
     userEvent.click(screen.getByRole("button", { name: /Enviar/i }));
 
     // Verificar si el mensaje de error se encuentra en la pantalla
@@ -54,18 +81,42 @@ describe("componente FormLogin", () => {
     // Sobrescribir el objeto global 'localStorage' con el objeto simulado
     Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
-    // Renderizar el componente
-    render(<Login />, { wrapper: BrowserRouter });
+    // Mockear useNavigate
+    // const mockUseNavigate = jest.fn();
+    // jest.mock("react-router-dom", () => ({
+    //   ...jest.requireActual("react-router-dom"),
+    //   useNavigate: () => mockUseNavigate,
+    // }));
+
+    const mockUseNavigate = jest.requireMock("react-router-dom").useNavigate;
+// Renderizar el componente con el contexto de autenticación falso
+render(
+  <AuthProvider>
+    <FormLogin
+      onFormSubmit={(loginData) => {
+        // Mocked implementation of handleFormSubmit
+      }}
+      error="Error message" // Mocked error
+    />
+  </AuthProvider>,
+  { wrapper: BrowserRouter }
+);
     // Simular interacción del usuario
     userEvent.type(screen.getByLabelText(/email/i), "test@example.com");
     userEvent.type(screen.getByLabelText(/contraseña/i), "password123");
+    fireEvent.click(screen.getByRole("button", { name: /Enviar/i }));
 
-    // Llamar directamente a la función navigateToMenu
-    navigateToMenu();
+    await act(async () => {
+      navigateToMenu();
+    });
+
+    // Agregar console.log para depurar
+    console.log("Llamando a navigateToMenu");
 
     // Esperar a que se completen las acciones asíncronas
     await waitFor(() => {
-      expect(navigateToMenu()).toHaveBeenCalledWith("/menu");
+      console.log("Actions completadas");
+      expect(mockUseNavigate).toHaveBeenCalledWith("/menu");
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         "userData",
         JSON.stringify(mockUserData)

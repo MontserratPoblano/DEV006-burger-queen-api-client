@@ -14,9 +14,6 @@ const WelcomeMessage = (): JSX.Element => {
       const { role } = userData;
       setUserRole(role);
       setShowMessage(true);
-      setTimeout(() => {
-        setShowMessage(false);
-      }, 3000);
     }
   }, []);
 

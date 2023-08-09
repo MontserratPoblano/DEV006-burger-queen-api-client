@@ -43,6 +43,7 @@ const Menu = (): JSX.Element => {
     setClientName(name);
   };
 
+
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
     const productsByCategory = listProducts.filter((product) =>
@@ -60,7 +61,7 @@ const Menu = (): JSX.Element => {
         <MiddleSide>
           <WelcomeMessage />
           <Client setClientName={handleNameChange} />
-          <div className="grid grid-cols-2 gap-2 place-content-center h-40">
+          <div className="grid grid-cols-2 gap-2 place-content-center h-20">
           <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
           <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
