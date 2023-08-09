@@ -28,8 +28,8 @@ const Login = (): JSX.Element => {
   const handleResponse = (response: Token) => {
     if (response.accessToken) {
       localStorage.setItem("userData", JSON.stringify(response.user));
+      localStorage.setItem("accessToken", response.accessToken)
       setAccessToken(response.accessToken)
-      localStorage.setItem("token", response.accessToken)
       navigateToMenu();
     } else {
       setError("Existen errores en tus credenciales, inténtalo de nuevo");

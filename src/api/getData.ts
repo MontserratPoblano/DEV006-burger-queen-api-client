@@ -20,7 +20,7 @@ export function getData(url: string, loginData: LoginData): Promise<Token> {
   }).then((response) => response.json());
 }
 
-export function getDataProducts(url: string,token:any) : Promise<[]> {
+export function getDataProducts(url: string,token:string) : Promise<[]> {
   return fetch(url, {
     method: "GET",
     headers: {

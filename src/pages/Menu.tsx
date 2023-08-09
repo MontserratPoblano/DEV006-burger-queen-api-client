@@ -26,29 +26,33 @@ const Menu = (): JSX.Element => {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
+
   const [selectProduct, setselectProduct] =  useState<string>("");
   console.log('desde el render', accessToken)
 
-  const token = localStorage.getItem("token")
+
+
   useEffect(() => {
-    if (token) { 
+    if (accessToken) { 
        getDataProducts(
         "http://localhost:8080/products?_page=1&_limit=10",
-        token
+        accessToken
       ).then((response) => {
         setListProducts(response);
       });
     }
-  }, []);
+  }, [accessToken]);
 
   const handleNameChange = (name: string) => {
     setClientName(name);
   };
 
 
+
   const handleProductChange =  (products:string) => {
     setselectProduct(products);
   };
+
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
     const productsByCategory = listProducts.filter((product) =>
@@ -66,7 +70,7 @@ const Menu = (): JSX.Element => {
         <MiddleSide>
           <WelcomeMessage />
           <Client setClientName={handleNameChange} />
-          <div className="grid grid-cols-2 gap-2 place-content-center h-40">
+          <div className="grid grid-cols-2 gap-2 place-content-center h-20">
           <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
           <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
