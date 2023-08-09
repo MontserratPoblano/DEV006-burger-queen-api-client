@@ -27,6 +27,10 @@ const Menu = (): JSX.Element => {
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
 
+  const [selectProduct, setselectProduct] =  useState<string>("");
+  console.log('desde el render', accessToken)
+
+
 
   useEffect(() => {
     if (accessToken) { 
@@ -43,6 +47,11 @@ const Menu = (): JSX.Element => {
     setClientName(name);
   };
 
+
+
+  const handleProductChange =  (products:string) => {
+    setselectProduct(products);
+  };
 
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
@@ -65,13 +74,14 @@ const Menu = (): JSX.Element => {
           <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
           <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
-          <MenuRenderer products={listByCategory}/>
+          <MenuRenderer products={listByCategory}  setSelectProduct={handleProductChange}/>
         </MiddleSide>
         <RightSide>
-          <Command clientName={clientName} />
+        <Command clientName={clientName} selectProduct={selectProduct}  />
         </RightSide>
       </div>
     </section>
   );
 };
 export default Menu;
+

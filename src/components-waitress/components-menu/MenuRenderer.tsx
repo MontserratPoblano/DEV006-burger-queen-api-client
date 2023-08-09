@@ -2,11 +2,15 @@ import { Product } from "../../pages/Menu";
 
 interface MenuRendererProps {
   products: Product[];
+  setSelectProduct: (name: string) => any;
 }
 
-const MenuRenderer = ({ products }: MenuRendererProps): JSX.Element => {
-  const listItems = products.map((item) => (
-    <div className="group h-48 shadow-xl rounded-lg relative"  key={item.id}>
+const MenuRenderer = ({ products, setSelectProduct}: MenuRendererProps): JSX.Element => {
+   const handleProductClick = (name: string) => {
+    setSelectProduct(name); 
+  };
+    const listItems = products.map((item) => (
+    <div className="group h-48 shadow-xl rounded-lg relative"  key={item.id}  onClick={() => handleProductClick(item.name)}>
     
         <img
           src={item.image}
@@ -22,6 +26,7 @@ const MenuRenderer = ({ products }: MenuRendererProps): JSX.Element => {
 
 
     </div>
+
   ));
   return (
     <section className="mx-2 max-w-2xl sm:px-3 lg:max-w-7xl lg:px-4">
@@ -33,3 +38,4 @@ const MenuRenderer = ({ products }: MenuRendererProps): JSX.Element => {
 };
 
 export default MenuRenderer;
+
