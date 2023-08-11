@@ -1,10 +1,16 @@
+import { SelectProduct } from "../pages/Menu";
 
 interface CommandProps {
   clientName: string;
-  selectProduct: string;
+  selectProduct: SelectProduct;
 }
 
-const Command = ({ clientName, selectProduct }: CommandProps): JSX.Element => {
+const Command = ({ clientName,selectProduct }: CommandProps): JSX.Element => {
+
+  const productsTable=selectProduct.map((product)=>{
+    
+  })
+ 
 
   return (
     <>
@@ -13,8 +19,8 @@ const Command = ({ clientName, selectProduct }: CommandProps): JSX.Element => {
       <ul className="ml-5 mt-3">
         <li className="mb-2">Cliente: {clientName} </li>
         <li>Nombre meser@:</li>
-        {selectProduct}
       </ul>
+
 
       <thead>
         <tr>
@@ -39,7 +45,7 @@ const Command = ({ clientName, selectProduct }: CommandProps): JSX.Element => {
 
               <div className="ml-3">
                 <p className="text-gray-900 whitespace-no-wrap">
-                {selectProduct}
+                {selectProduct.id}
                 </p>
               </div>
             </div>

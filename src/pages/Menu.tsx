@@ -12,6 +12,7 @@ import useAuth from "../context/auth-hooks";
 import { getDataProducts } from "../api/getData";
 import MenuRenderer from "../components-waitress/components-menu/MenuRenderer";
 
+
 export interface Product {
   id: number;
   name: string;
@@ -21,20 +22,22 @@ export interface Product {
   dateEntry: string;
 }
 
+export interface SelectProduct {
+  qty: number;
+  product: Product;
+}
+
 const Menu = (): JSX.Element => {
   const [clientName, setClientName] = useState<string>("");
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
-
-  const [selectProduct, setselectProduct] =  useState<string>("");
-  console.log('desde el render', accessToken)
-
+  const [selectProduct, setSelectProduct] = useState<SelectProduct[]>([]);
 
 
   useEffect(() => {
-    if (accessToken) { 
-       getDataProducts(
+    if (accessToken) {
+      getDataProducts(
         "http://localhost:8080/products?_page=1&_limit=10",
         accessToken
       ).then((response) => {
@@ -47,12 +50,29 @@ const Menu = (): JSX.Element => {
     setClientName(name);
   };
 
+  const handleProductClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const productId = +e.currentTarget.id;
+    const productSelect = listProducts.find((item) => item.id == productId);
 
-
-  const handleProductChange =  (products:string) => {
-    setselectProduct(products);
+    if (productSelect) {
+      const existingProductIndex = selectProduct.findIndex(
+        (selected) => selected.product.id === productSelect.id
+      );
+      if (existingProductIndex !== -1) {
+        const updatedSelectedProducts = [...selectProduct];
+        updatedSelectedProducts[existingProductIndex].qty += 1;
+        setSelectProduct(updatedSelectedProducts);
+      } else {
+        const newSelectedProduct: SelectProduct = {
+          qty: 1,
+          product: productSelect,
+        };
+        setSelectProduct([...selectProduct, newSelectedProduct]);
+      }
+    }
   };
 
+  console.log(selectProduct, "no me estoy");
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
     const productsByCategory = listProducts.filter((product) =>
@@ -71,17 +91,19 @@ const Menu = (): JSX.Element => {
           <WelcomeMessage />
           <Client setClientName={handleNameChange} />
           <div className="grid grid-cols-2 gap-2 place-content-center h-20">
-          <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
-          <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
+            <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
+            <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
-          <MenuRenderer products={listByCategory}  setSelectProduct={handleProductChange}/>
+          <MenuRenderer
+            products={listByCategory}
+            handleProductClick={handleProductClick}
+          />
         </MiddleSide>
         <RightSide>
-        <Command clientName={clientName} selectProduct={selectProduct}  />
+          <Command clientName={clientName} selectProduct={selectProduct} />
         </RightSide>
       </div>
     </section>
   );
 };
 export default Menu;
-

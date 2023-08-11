@@ -2,20 +2,19 @@ import { Product } from "../../pages/Menu";
 
 interface MenuRendererProps {
   products: Product[];
-  setSelectProduct: (name: string) => any;
+  handleProductClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const MenuRenderer = ({ products, setSelectProduct}: MenuRendererProps): JSX.Element => {
-   const handleProductClick = (name: string) => {
-    setSelectProduct(name); 
-  };
+const MenuRenderer = ({ products, handleProductClick}: MenuRendererProps): JSX.Element => {
+   
     const listItems = products.map((item) => (
-    <div className="group h-48 shadow-xl rounded-lg relative"  key={item.id}  onClick={() => handleProductClick(item.name)}>
+    <div className="group h-48 shadow-xl rounded-lg relative"  onClick={handleProductClick}  id={item.id} key={item.id} >
     
         <img
           src={item.image}
           alt={item.name}
           className="object-cover object-center group-hover:opacity-30 "
+         
         />
         <h3 className="mt-2 mx-2 text-sm text-gray-700 text-center group-hover:opacity-30">
           {item.name}
