@@ -6,9 +6,9 @@ interface MenuRendererProps {
 }
 
 const MenuRenderer = ({ products, handleProductClick}: MenuRendererProps): JSX.Element => {
-   
+
     const listItems = products.map((item) => (
-    <div className="group h-48 shadow-xl rounded-lg relative"  onClick={handleProductClick}  id={item.id} key={item.id} >
+    <div className="group h-48 shadow-xl rounded-lg relative" id={item.id} key={item.id}  onClick={ handleProductClick}>
     
         <img
           src={item.image}
@@ -22,8 +22,6 @@ const MenuRenderer = ({ products, handleProductClick}: MenuRendererProps): JSX.E
         <p className="absolute bottom-0 left-0 mt-2 mx-2 text-lg font-medium text-black group-hover:opacity-30">{`$${item.price.toFixed(
           2
         )}`}</p>
-
-
     </div>
 
   ));

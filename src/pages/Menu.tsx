@@ -32,7 +32,10 @@ const Menu = (): JSX.Element => {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
+
   const [selectProduct, setSelectProduct] = useState<SelectProduct[]>([]);
+
+
 
 
   useEffect(() => {
@@ -52,25 +55,36 @@ const Menu = (): JSX.Element => {
 
   const handleProductClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const productId = +e.currentTarget.id;
-    const productSelect = listProducts.find((item) => item.id == productId);
-
+    const productSelect = listProducts.find((item) => item.id === productId);
+  
     if (productSelect) {
       const existingProductIndex = selectProduct.findIndex(
         (selected) => selected.product.id === productSelect.id
       );
+  
       if (existingProductIndex !== -1) {
+        //COPIA INMUTABLE 
         const updatedSelectedProducts = [...selectProduct];
-        updatedSelectedProducts[existingProductIndex].qty += 1;
+        const existingProduct = updatedSelectedProducts[existingProductIndex];
+        
+        existingProduct.qty += 1;
+        existingProduct.product.price = existingProduct.qty * productSelect.price; 
+  
         setSelectProduct(updatedSelectedProducts);
       } else {
         const newSelectedProduct: SelectProduct = {
           qty: 1,
-          product: productSelect,
+          product: { ...productSelect },
         };
         setSelectProduct([...selectProduct, newSelectedProduct]);
       }
+  
+      console.log(selectProduct);
     }
   };
+  
+
+  
 
   console.log(selectProduct, "no me estoy");
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -94,10 +108,7 @@ const Menu = (): JSX.Element => {
             <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
             <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
-          <MenuRenderer
-            products={listByCategory}
-            handleProductClick={handleProductClick}
-          />
+          <MenuRenderer products={listByCategory} handleProductClick={handleProductClick} />
         </MiddleSide>
         <RightSide>
           <Command clientName={clientName} selectProduct={selectProduct} />
