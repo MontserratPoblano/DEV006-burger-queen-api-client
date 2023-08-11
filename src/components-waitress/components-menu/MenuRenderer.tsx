@@ -2,15 +2,13 @@ import { Product } from "../../pages/Menu";
 
 interface MenuRendererProps {
   products: Product[];
-  setSelectProduct: (name: string) => any;
+  handleProductClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const MenuRenderer = ({ products, setSelectProduct}: MenuRendererProps): JSX.Element => {
-   const handleProductClick = (name: string) => {
-    setSelectProduct(name); 
-  };
+const MenuRenderer = ({ products, handleProductClick}: MenuRendererProps): JSX.Element => {
+
     const listItems = products.map((item) => (
-    <div className="group h-48 shadow-xl rounded-lg relative"  key={item.id}  onClick={() => handleProductClick(item.name)}>
+    <div className="group h-48 shadow-xl rounded-lg relative" id={item.id} key={item.id}  onClick={ handleProductClick}>
     
         <img
           src={item.image}
@@ -23,8 +21,6 @@ const MenuRenderer = ({ products, setSelectProduct}: MenuRendererProps): JSX.Ele
         <p className="absolute bottom-0 left-0 mt-2 mx-2 text-lg font-medium text-black group-hover:opacity-30">{`$${item.price.toFixed(
           2
         )}`}</p>
-
-
     </div>
 
   ));
