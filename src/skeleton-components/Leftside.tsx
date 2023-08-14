@@ -5,7 +5,7 @@ interface LeftSideProps {
 
 const LeftSide = ({ children }: LeftSideProps): JSX.Element => {
   return (
-    <div className="w-8/12 h-full max-h-screen mr-5 bg-custom-grey rounded-3xl border border-black">
+    <div className="w-8/12  max-h-screen mr-5 bg-custom-grey rounded-3xl border border-black">
       {children}
     </div>
   );

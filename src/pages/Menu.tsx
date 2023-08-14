@@ -34,9 +34,6 @@ const Menu = (): JSX.Element => {
 
   const [selectProduct, setSelectProduct] = useState<SelectProduct[]>([]);
 
-
-
-
   useEffect(() => {
     if (accessToken) {
       getDataProducts(
@@ -54,21 +51,24 @@ const Menu = (): JSX.Element => {
 
   const handleProductClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const productId = +e.currentTarget.id;
+
+    //FUNCION A PARTE, QUE SE LLAME AQUI HACERLA AQUI EN ESTE ARCHIVO.
     const productSelect = listProducts.find((item) => item.id === productId);
-  
+
     if (productSelect) {
       const existingProductIndex = selectProduct.findIndex(
         (selected) => selected.product.id === productSelect.id
       );
-  
+
       if (existingProductIndex !== -1) {
-        //COPIA INMUTABLE 
+        //COPIA INMUTABLE
         const updatedSelectedProducts = [...selectProduct];
         const existingProduct = updatedSelectedProducts[existingProductIndex];
-        
+
         existingProduct.qty += 1;
-        existingProduct.product.price = existingProduct.qty * productSelect.price; 
-  
+        existingProduct.product.price =
+          existingProduct.qty * productSelect.price;
+
         setSelectProduct(updatedSelectedProducts);
       } else {
         const newSelectedProduct: SelectProduct = {
@@ -77,13 +77,10 @@ const Menu = (): JSX.Element => {
         };
         setSelectProduct([...selectProduct, newSelectedProduct]);
       }
-  
+
       console.log(selectProduct);
     }
   };
-  
-
-  
 
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
@@ -94,8 +91,9 @@ const Menu = (): JSX.Element => {
   };
 
   return (
-    <section className="h-screen">
-      <div className="flex flex-row mx-3 h-full">
+    <section className="">
+      <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden">
+
         <LeftSide>
           <Navbar />
         </LeftSide>
@@ -106,7 +104,10 @@ const Menu = (): JSX.Element => {
             <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
             <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
           </div>
-          <MenuRenderer products={listByCategory} handleProductClick={handleProductClick} />
+          <MenuRenderer
+            products={listByCategory}
+            handleProductClick={handleProductClick}
+          />
         </MiddleSide>
         <RightSide>
           <Command clientName={clientName} selectProduct={selectProduct} />
@@ -116,4 +117,3 @@ const Menu = (): JSX.Element => {
   );
 };
 export default Menu;
-
