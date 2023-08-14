@@ -47,12 +47,12 @@ const FormLogin = ({  error, onFormSubmit }: FormLoginProps): JSX.Element => {
 
   return (
     <>
-      {/* <div className="bg-custom-green relative lg:py-20 w-full max-full"> */}
+      <div className="bg-custom-green relative w-full max-full h-[calc(60vw-100px)]">
         <div
-          className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
-      xl:px-5 lg:flex-row"
+          className="flex flex-col mt-20 items-center justify-between pr-10 pl-10 mr-auto mb-0 ml-auto max-w-7xl
+      xl:px-5 lg:flex-row "
         >
-          <div className="flex flex-col items-center w-full pt-5 pr-10 pb-20 pl-10 lg:pt-20 lg:flex-row">
+          <div className="flex flex-col items-center w-full pt-5 pr-10 pb-2 pl-10  lg:flex-row">
             <div className="w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12">
               <div className="flex flex-col items-center justify-center w-full h-full relative lg:pr-10">
                 <img src={logo4} className="btn-" />
@@ -121,7 +121,7 @@ const FormLogin = ({  error, onFormSubmit }: FormLoginProps): JSX.Element => {
               </form>
             </div>
           </div>
-      {/*    </div> */}
+         </div>
        </div>
     </>
   );
