@@ -7,9 +7,13 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle  } from 'react-icons/ai'
 interface CommandProps {
   clientName: string;
   selectProduct: SelectProduct[];
+  handleDeleteClick:(e: React.MouseEvent<HTMLButtonElement>) => void;
+ 
 }
 
-const Command = ({ clientName, selectProduct }: CommandProps): JSX.Element => {
+const Command = ({ clientName, selectProduct,handleDeleteClick }: CommandProps): JSX.Element => {
+ 
+ 
   const columns: TableColumn<SelectProduct>[] = [
     {
       name: 'Item',
@@ -37,15 +41,13 @@ const Command = ({ clientName, selectProduct }: CommandProps): JSX.Element => {
       width: '20%'
     },
     {
-      cell: () => <BsTrash />,
+      cell: (row) => <BsTrash id={row.product.id} onClick={handleDeleteClick} className="cursor-pointer"/>,
       button: true,
       width: '3%',
     },
   ];
 
-  const productsTable=selectProduct.map((product)=>{
-    
-  })
+  
  
 
   return (

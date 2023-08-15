@@ -8,7 +8,7 @@ interface MenuRendererProps {
 const MenuRenderer = ({ products, handleProductClick}: MenuRendererProps): JSX.Element => {
 
     const listItems = products.map((item) => (
-    <div className="group h-48 shadow-xl rounded-lg relative" id={item.id} key={item.id}  onClick={ handleProductClick}>
+    <div className="group h-48 shadow-xl rounded-lg relative" id={item.id.toString()} key={item.id}  onClick={ handleProductClick}>
     
         <img
           src={item.image}
