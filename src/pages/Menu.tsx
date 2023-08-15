@@ -11,6 +11,8 @@ import { useState, useEffect } from "react";
 import useAuth from "../context/auth-hooks";
 import { getDataProducts } from "../api/getData";
 import MenuRenderer from "../components-waitress/components-menu/MenuRenderer";
+import Modal from "../components-waitress/components-menu/Modal"
+
 
 
 export interface Product {
@@ -32,8 +34,9 @@ const Menu = (): JSX.Element => {
   const [listProducts, setListProducts] = useState<Product[]>([]);
   const [listByCategory, setListByCategory] = useState<Product[]>([]);
   const { accessToken } = useAuth();
-
   const [selectProduct, setSelectProduct] = useState<SelectProduct[]>([]);
+  const [showModal,setShowModal] = useState(false)
+  const [deleteItem,setDeleteItem] = useState<number | undefined>(undefined)
 
   useEffect(() => {
     if (accessToken) {
@@ -79,11 +82,10 @@ const Menu = (): JSX.Element => {
         setSelectProduct([...selectProduct, newSelectedProduct]);
       }
 
-      console.log(selectProduct);
     }
   };
 
-  console.log(selectProduct, "no me estoy");
+ 
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
     const productsByCategory = listProducts.filter((product) =>
@@ -92,7 +94,31 @@ const Menu = (): JSX.Element => {
     setListByCategory(productsByCategory);
   };
 
+  const handleDeleteClick = (e:React.MouseEvent<HTMLButtonElement>) =>{
+    const getIdItem=+e.currentTarget.id
+    setDeleteItem(getIdItem)
+    console.log(getIdItem,"estoy borrando")
+    
+    setShowModal(true)
+  }
+
+  const handleCloseClick = () =>{
+    setShowModal(false)
+  }
+
+  const handleDeleteItemClick = () =>{
+    const selectDeleteItem=selectProduct.filter((item)=>{
+     return item.product.id!==deleteItem
+    })
+    setShowModal(false)
+    setSelectProduct(selectDeleteItem)
+  }
+
+  
+
+
   return (
+    <>
     <section className="">
       <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden">
 
@@ -112,10 +138,12 @@ const Menu = (): JSX.Element => {
           />
         </MiddleSide>
         <RightSide>
-          <Command clientName={clientName} selectProduct={selectProduct} />
+          <Command clientName={clientName}  selectProduct={selectProduct} handleDeleteClick={handleDeleteClick} />
         </RightSide>
       </div>
+      <Modal handleCloseClick={handleCloseClick} showModal={showModal} handleDeleteItemClick={handleDeleteItemClick} />
     </section>
+    </>
   );
 };
 export default Menu;
