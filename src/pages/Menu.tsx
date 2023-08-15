@@ -1,18 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Navbar from "../components-waitress/components-menu/Navbar";
 import LeftSide from "../skeleton-components/Leftside";
 import MiddleSide from "../skeleton-components/Middleside";
 import RightSide from "../skeleton-components/Rightside";
 import WelcomeMessage from "../components-waitress/WelcomeMessage";
-import Client from "../components-waitress/components-menu/Client";
 import Command from "../components-waitress/Command";
+import Navbar from "../components-waitress/components-menu/Navbar";
+import Client from "../components-waitress/components-menu/Client";
+import MenuRenderer from "../components-waitress/components-menu/MenuRenderer";
 import OptionMenu from "../components-waitress/components-menu/OptionMenu";
+import { getDataProducts } from "../api/getData";
 import { useState, useEffect } from "react";
 import useAuth from "../context/auth-hooks";
-import { getDataProducts } from "../api/getData";
-import MenuRenderer from "../components-waitress/components-menu/MenuRenderer";
-import Modal from "../components-waitress/components-menu/Modal"
-
+import Modal from "../components-waitress/components-menu/Modal";
 
 
 export interface Product {
@@ -53,39 +51,50 @@ const Menu = (): JSX.Element => {
     setClientName(name);
   };
 
-  const handleProductClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const productId = +e.currentTarget.id;
+  const findProductById = (productId: number) => {
+    return listProducts.find((item) => item.id === productId);
+  };
 
-    //FUNCION A PARTE, QUE SE LLAME AQUI HACERLA AQUI EN ESTE ARCHIVO.
-    const productSelect = listProducts.find((item) => item.id === productId);
+  const updateSelectedProduct = (
+    selectedProducts: SelectProduct[],
+    productSelect: Product
+  ) => {
+    const existingProductIndex = selectedProducts.findIndex(
+      (selected) => selected.product.id === productSelect.id
+    );
 
-    if (productSelect) {
-      const existingProductIndex = selectProduct.findIndex(
-        (selected) => selected.product.id === productSelect.id
-      );
+    if (existingProductIndex !== -1) {
+      const updatedSelectedProducts = [...selectedProducts];
+      const existingProduct = updatedSelectedProducts[existingProductIndex];
 
-      if (existingProductIndex !== -1) {
-        //COPIA INMUTABLE
-        const updatedSelectedProducts = [...selectProduct];
-        const existingProduct = updatedSelectedProducts[existingProductIndex];
+      existingProduct.qty += 1;
+      existingProduct.product.price = existingProduct.qty * productSelect.price;
 
-        existingProduct.qty += 1;
-        existingProduct.product.price =
-          existingProduct.qty * productSelect.price;
+      return updatedSelectedProducts;
+      
+    } else {
+      const newSelectedProduct: SelectProduct = {
+        qty: 1,
+        product: { ...productSelect },
+      };
 
-        setSelectProduct(updatedSelectedProducts);
-      } else {
-        const newSelectedProduct: SelectProduct = {
-          qty: 1,
-          product: { ...productSelect },
-        };
-        setSelectProduct([...selectProduct, newSelectedProduct]);
-      }
-
+      return [...selectedProducts, newSelectedProduct];
     }
   };
 
- 
+  const handleProductClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const productId = +e.currentTarget.id;
+    const productSelect = findProductById(productId);
+
+    if (productSelect) {
+      const updatedSelectedProducts = updateSelectedProduct(
+        selectProduct,
+        productSelect
+      );
+      setSelectProduct(updatedSelectedProducts);
+    }
+  };
+
   const handleClickMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
     const categoryId = e.currentTarget.id;
     const productsByCategory = listProducts.filter((product) =>
@@ -121,7 +130,6 @@ const Menu = (): JSX.Element => {
     <>
     <section className="">
       <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden">
-
         <LeftSide>
           <Navbar />
         </LeftSide>
