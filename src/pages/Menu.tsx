@@ -128,11 +128,60 @@ const Menu = (): JSX.Element => {
 
   return (
     <>
+    {/* VISTA PORTRAIT (VERTICAL) TABLET */}
     <section className="">
-      <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden">
+      {/* <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden"> */}
+      <div className="portrait:block lg:hidden  ">
+      <Navbar />
+    
+        <div className="flex mt-10">
+
+          <div className="ml-8 w-80">
+        <MiddleSide>
+          <WelcomeMessage />
+          <Client setClientName={handleNameChange} />
+          <div className="grid grid-cols-2  place-content-center h-20">
+            <OptionMenu category="Desayuno" handleClickMenu={handleClickMenu} />
+            <OptionMenu category="Almuerzo" handleClickMenu={handleClickMenu} />
+          </div>
+          
+          <MenuRenderer
+            products={listByCategory}
+            handleProductClick={handleProductClick}
+          />
+        </MiddleSide>
+        </div>
+
+
+
+        <div className="w-96">
+        <RightSide>
+          <Command clientName={clientName}  selectProduct={selectProduct} handleDeleteClick={handleDeleteClick} />
+        </RightSide>
+        </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+        {/* VISTA LANDSCAPE (HORIZONTAL) TABLET */}
+        <section className="portrait:hidden">
+      {/* <div className="flex flex-row lg:h-[calc(80vw-100px)] lg:p-2 overflow-hidden"> */}
+  
+  <div className="portait:hidden landscape:block "> 
+      
+      
+    
+
+        <div className="flex mt-10 mb-5 p-2 h-screen">
+            
         <LeftSide>
           <Navbar />
         </LeftSide>
+    
         <MiddleSide>
           <WelcomeMessage />
           <Client setClientName={handleNameChange} />
@@ -148,9 +197,13 @@ const Menu = (): JSX.Element => {
         <RightSide>
           <Command clientName={clientName}  selectProduct={selectProduct} handleDeleteClick={handleDeleteClick} />
         </RightSide>
+        </div>
       </div>
-      <Modal handleCloseClick={handleCloseClick} showModal={showModal} handleDeleteItemClick={handleDeleteItemClick} />
+   
+
     </section>
+    
+    <Modal handleCloseClick={handleCloseClick} showModal={showModal} handleDeleteItemClick={handleDeleteItemClick} />
     </>
   );
 };

@@ -4,7 +4,7 @@ interface RightSideProps {
 
 const RightSide = ({children}:RightSideProps ): JSX.Element => {
   return (
-    <div className="w-11/12 h-full max-h-screen  bg-custom-grey rounded-3xl border border-black">
+    <div className="md:h-[calc(120vw-100px)] landscape:md:h-[calc(78vw-100px)] bg-custom-grey rounded-3xl border border-black">
       {children}
     </div>
   );
