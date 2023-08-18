@@ -19,13 +19,13 @@ const Command = ({ clientName, selectProduct,handleDeleteClick }: CommandProps):
       name: 'Item',
       selector: row => row.product.name,
       sortable: true,
-      width: '50%'
+      width: '49%'
     },
     {
-      name: 'Cantidad',
+      name: 'Cant',
       selector: (row: SelectProduct) => row.qty.toString(),
       sortable: true,
-      width: '25%',
+      width: '23%',
       cell: (row) => (
         <div className="flex items-center justify-center">
           <AiOutlineMinusCircle className="cursor-pointer" />
@@ -38,7 +38,7 @@ const Command = ({ clientName, selectProduct,handleDeleteClick }: CommandProps):
       name: 'Precio',
       selector: row => row.product.price,
       sortable: true,
-      width: '20%'
+      width: '22%'
     },
     {
       cell: (row) => <BsTrash id={row.product.id} onClick={handleDeleteClick} className="cursor-pointer"/>,
@@ -58,7 +58,7 @@ const Command = ({ clientName, selectProduct,handleDeleteClick }: CommandProps):
         <li className="mb-2">Cliente: {clientName} </li>
         <li>Nombre meser@:</li>
       </ul>
-      <div className="mt-10 p-2 rounded-lg m-3">
+      <div className="mt-10 p-2 rounded-lg">
       <DataTable 
         columns={columns}
         data={selectProduct}
